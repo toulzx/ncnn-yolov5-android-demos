@@ -1,5 +1,24 @@
 # NCNN YOLOv5
 
+笔者（@toulzx）注：
+> 此分支（review）为笔者所 fork 的项目的子分支
+>
+> 笔者在本项目的基础上审查代码，增加注释，以便理解。
+>
+> 同时,笔者还将查阅的相关资料收集添加到各个子项目的 README.md 中
+>
+> 如果本项目对你有帮助，请 star 支持我一下
+>
+> 转载必须注明作者与出处：@toulzx @binzhouchn
+>
+> 三个子项目各自的 README.md
+>
+> + [静态图片识别](ncnn-android-static_img/README.md)
+> + [动态视频识别](ncnn-android-real_time/README.md)
+> + [多模型集合](ncnn-android-all_nets/README.md)
+
+***以下部分为本仓库原作者的 README.md 文档内容：***
+
 本项目下有三个子项目，可以用Android Studio(AS)单独加载各子项目编译后生成apk安装~<br>
 从安装android studio到打包apk文件安装全流程详细讲解请查看[项目二](ncnn-android-static_img/)
 

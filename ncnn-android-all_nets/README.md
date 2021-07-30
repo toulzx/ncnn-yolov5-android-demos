@@ -1,5 +1,22 @@
 # NCNN YOLOv5
 
+***笔者（@toulzx）注：***
+
+> 此分支（review）为笔者所 fork 的项目的子分支，你目前来到了第三个子项目：**多模型集合**
+>
+>
+> **三个子项目各自的 README.md：**
+>
+> + [静态图片识别](ncnn-android-static_img/README.md)
+> + [动态视频识别](ncnn-android-real_time/README.md)
+> + [多模型集合](ncnn-android-all_nets/README.md)
+>
+> 如果本项目对你有帮助，请 star 支持我一下
+>
+> 转载必须注明作者与出处：@toulzx @binzhouchn
+
+***以下部分为本仓库原作者的 README.md 文档内容：***
+
 ### 移动端NCNN部署，项目支持YOLOv5s、YOLOv4-tiny、MobileNetV2-YOLOv3-nano、Simple-Pose、Yolact、ChineseOCR-lite、ENet、Landmark106、DBFace、MBNv2-FCN与MBNv3-Seg-small模型，摄像头实时捕获视频流进行检测，也可以上传图片或者视频进行检测！
 
 ## Android:
