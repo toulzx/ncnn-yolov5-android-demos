@@ -7,9 +7,9 @@
 >
 > **三个子项目各自的 README.md：**
 >
-> + [静态图片识别](ncnn-android-static_img/README.md)
-> + [动态视频识别](ncnn-android-real_time/README.md)
-> + [多模型集合](ncnn-android-all_nets/README.md)
+> + [静态图片识别](../ncnn-android-static_img/README.md)
+> + [动态视频识别](../ncnn-android-real_time/README.md)
+> + [多模型集合](README.md)
 >
 > 如果本项目对你有帮助，请 star 支持我一下
 >
