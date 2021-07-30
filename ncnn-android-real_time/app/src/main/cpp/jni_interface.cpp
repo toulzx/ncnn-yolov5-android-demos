@@ -20,7 +20,7 @@ JNIEXPORT void JNI_OnUnload(JavaVM* vm, void* reserved)
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_gd_hq_yolov5_YOLOv5_init(JNIEnv* env, jclass, jobject assetManager) {
+Java_gd_hq_yolov5_YOLOv5_Init(JNIEnv* env, jclass, jobject assetManager) {
     if(YoloV5::detector == nullptr){
         AAssetManager* mgr = AAssetManager_fromJava(env, assetManager);
         YoloV5::detector = new YoloV5(mgr,"yolov4-tiny.param","yolov4-tiny.bin");
@@ -28,7 +28,7 @@ Java_gd_hq_yolov5_YOLOv5_init(JNIEnv* env, jclass, jobject assetManager) {
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_gd_hq_yolov5_YOLOv5_detect(JNIEnv* env, jclass, jobject image, jdouble threshold, jdouble nms_threshold) {
+Java_gd_hq_yolov5_YOLOv5_Detect(JNIEnv* env, jclass, jobject image, jdouble threshold, jdouble nms_threshold) {
     auto result = YoloV5::detector->detect(env,image);
 
     auto box_cls = env->FindClass("gd/hq/yolov5/Box");

@@ -1,6 +1,3 @@
-//
-// Created by 邓昊晴 on 14/6/2020.
-//
 
 #ifndef YOLOV5_H
 #define YOLOV5_H

@@ -1,7 +1,3 @@
-//
-// Created by 邓昊晴 on 14/6/2020.
-//
-
 #include "YoloV5.h"
 
 bool YoloV5::hasGPU = false;
