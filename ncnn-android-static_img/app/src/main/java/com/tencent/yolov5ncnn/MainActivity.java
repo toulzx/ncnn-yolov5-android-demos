@@ -31,7 +31,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.IOException;
 
 public class MainActivity extends Activity
@@ -48,54 +47,60 @@ public class MainActivity extends Activity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+
+        // 初始化
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        boolean ret_init = yolov5ncnn.Init(getAssets());
+        boolean ret_init = yolov5ncnn.Init(getAssets());    //获取 assets 目录下资源文件
         if (!ret_init)
         {
-            Log.e("MainActivity", "yolov5ncnn Init failed");
+            Log.e("MainActivity", "yolov5ncnn Init failed: Couldn't get files in folder 'assets'");
         }
 
-        imageView = (ImageView) findViewById(R.id.imageView);
+        // 连接组件
 
-        Button buttonImage = (Button) findViewById(R.id.buttonImage);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        Button buttonImage = (Button) findViewById(R.id.button_imageChoose);
+        Button buttonDetect = (Button) findViewById(R.id.buttonDetect);
+        Button buttonDetectGPU = (Button) findViewById(R.id.buttonDetectGPU);
+
+        // 监听
+
         buttonImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                // 点击按钮触发事件：读取相册图片
                 Intent i = new Intent(Intent.ACTION_PICK);
                 i.setType("image/*");
                 startActivityForResult(i, SELECT_IMAGE);
+                // 传参给 onActivityResult()，获取照片并通过 decodeUri() 转换成合适的格式
             }
         });
 
-        Button buttonDetect = (Button) findViewById(R.id.buttonDetect);
         buttonDetect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if (yourSelectedImage == null)
-                    return;
-
+                // 点击按钮触发事件：删除
+                // yourSelectedImage 在 decodeUri() 中获得了合适的最终形式
+                if (yourSelectedImage == null) return;
                 YoloV5Ncnn.Obj[] objects = yolov5ncnn.Detect(yourSelectedImage, false);
-
                 showObjects(objects);
             }
         });
 
-        Button buttonDetectGPU = (Button) findViewById(R.id.buttonDetectGPU);
         buttonDetectGPU.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if (yourSelectedImage == null)
-                    return;
-
+                if (yourSelectedImage == null) return;
                 YoloV5Ncnn.Obj[] objects = yolov5ncnn.Detect(yourSelectedImage, true);
-
                 showObjects(objects);
             }
         });
     }
 
+    // 展示识别结果（绘制 boxs 和 params）
     private void showObjects(YoloV5Ncnn.Obj[] objects)
     {
         if (objects == null)
@@ -105,8 +110,9 @@ public class MainActivity extends Activity
         }
 
         // draw objects on bitmap
-        Bitmap rgba = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Bitmap rgba = bitmap.copy(Bitmap.Config.ARGB_8888, true);   // Android 一般选用32色深、且可变
 
+        // 为不同 object 设置 不同的 box-color
         final int[] colors = new int[] {
             Color.rgb( 54,  67, 244),
             Color.rgb( 99,  30, 233),
@@ -129,21 +135,23 @@ public class MainActivity extends Activity
             Color.rgb(139, 125,  96)
         };
 
-        Canvas canvas = new Canvas(rgba);
+        // 绘制 boxs 和 params
 
+        Canvas canvas = new Canvas(rgba);   // 使用 canvas 与 Paint 实现 boxs 的绘制
+        // 设置 boxs 样式
         Paint paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.STROKE); // Stroke -> boxs 的描边的效果
         paint.setStrokeWidth(4);
-
+        // 设置 params 背景样式
         Paint textbgpaint = new Paint();
         textbgpaint.setColor(Color.WHITE);
         textbgpaint.setStyle(Paint.Style.FILL);
-
+        // 设置 params 字体样式
         Paint textpaint = new Paint();
         textpaint.setColor(Color.BLACK);
         textpaint.setTextSize(26);
         textpaint.setTextAlign(Paint.Align.LEFT);
-
+        //绘制 boxs 和 params
         for (int i = 0; i < objects.length; i++)
         {
             paint.setColor(colors[i % 19]);
@@ -170,12 +178,13 @@ public class MainActivity extends Activity
             }
         }
 
-        imageView.setImageBitmap(rgba);
+        imageView.setImageBitmap(rgba); // 在示意图组件上绘制
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        //点击按钮触发事件：读取相册图片 后 触发
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && null != data) {
@@ -184,9 +193,11 @@ public class MainActivity extends Activity
             try
             {
                 if (requestCode == SELECT_IMAGE) {
+                    // 将选中的照片传给 decodeUri() 处理
                     bitmap = decodeUri(selectedImage);
 
-                    yourSelectedImage = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                    // 将处理完的照片赋予 yourSelectedImage，它将作为触发识别按钮传送照片以 Detect 的载体
+                    yourSelectedImage = bitmap.copy(Bitmap.Config.ARGB_8888, true);     // 规定以 32 位色深显示、可修改
 
                     imageView.setImageBitmap(bitmap);
                 }
@@ -199,8 +210,10 @@ public class MainActivity extends Activity
         }
     }
 
-    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException
+    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException    //把异常抛给调用它的地方，如果不添加，调用它的 try catch 是拿不到这个异常的。
     {
+        // 解码传入的照片，调整以合适的 scale 传入
+
         // Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
@@ -227,7 +240,7 @@ public class MainActivity extends Activity
         o2.inSampleSize = scale;
         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null, o2);
 
-        // Rotate according to EXIF
+        // Rotate according to EXIF     // Android 设备读取照片的角度的经典问题
         int rotate = 0;
         try
         {
@@ -250,6 +263,7 @@ public class MainActivity extends Activity
             Log.e("MainActivity", "ExifInterface IOException");
         }
 
+        // 通过 Matric(rotate) 的方式构建一个在左上角、旋转后的 bitmap
         Matrix matrix = new Matrix();
         matrix.postRotate(rotate);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);

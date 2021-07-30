@@ -1,5 +1,35 @@
 # ncnn-android-yolov5
 
+***笔者（@toulzx）注：***
+> 此分支（review）为笔者所 fork 的项目的子分支，你目前来到了第一个子项目：**静态照片识别**
+>
+>
+> 代码部分的修改：修改 button 名称 buttonImage 为 button_imageChange
+>
+> 下面是收集的相关资料：
+>
+> - [Summary-of-Android-Assets](https://www.jianshu.com/p/35db9e819a54)  
+> - [Android-Developer-Doc-of-Bitmap](https://developer.android.com/reference/android/graphics/Bitmap)  
+> - [More-about-Android-Bitmap](https://www.liangzl.com/get-article-detail-28355.html)  
+> - [Android-Developer-Doc-of-Paint](https://developer.android.com/reference/android/graphics/Paint)  
+> - [Goodbye-onActivityResult](https://segmentfault.com/a/1190000037601888)  
+> - [The-Java™-Tutorials-of-Throw](https://docs.oracle.com/javase/tutorial/essential/exceptions/throwing.html)  
+> - [Android-Developer-Doc-of-BitmapFactory](<https://developer.android.com/reference/android/graphics/BitmapFactory#decodeStream(java.io.InputStream)>)  
+> - [Android-Developer-Doc-of-BitmapFactory.Options](https://developer.android.com/reference/android/graphics/BitmapFactory.Options)  
+> - [Summary-of-Matrix-used-in-createBitmap](https://blog.csdn.net/womengmengyan/article/details/48520065)
+>
+> **三个子项目各自的 README.md：**
+>
+> - [静态图片识别](ncnn-android-static_img/README.md)
+> - [动态视频识别](ncnn-android-real_time/README.md)
+> - [多模型集合](ncnn-android-all_nets/README.md)
+>
+> 如果本项目对你有帮助，请 star 支持我一下
+>
+> 转载必须注明作者与出处：@toulzx @binzhouchn
+
+***以下部分为本仓库原作者的 README.md 文档内容：***
+
 this is a sample ncnn android project, it depends on ncnn library only<br>
 The YOLOv5 object detection<br>
 选取静态图像识别(以mac为例)
